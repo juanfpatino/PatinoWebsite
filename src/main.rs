@@ -1,14 +1,14 @@
 #[macro_use] extern crate rocket;
 
 use rocket::fs::NamedFile;
-use std::path::{Path, PathBuf};
+use std::path::{Path};
 
-#[get("/<file..>")]
-async fn files(file: PathBuf) -> Option<NamedFile>{
-    NamedFile::open(Path::new("static/").join(file)).await.ok()
+#[get("/")]
+async fn home() -> Option<NamedFile>{
+    NamedFile::open(Path::new("static/index.html")).await.ok()
 }
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/", routes![files])
+    rocket::build().mount("/", routes![home])
 }
